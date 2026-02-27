@@ -112,14 +112,14 @@
             border-radius: 12px;
             border: 1px solid #eee;
             background: white;
-            -webkit-overflow-scrolling: touch; /* Smooth scroll for iOS */
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.85rem;
-            min-width: 450px; /* Essential for mobile responsiveness */
+            min-width: 450px;
         }
 
         th {
@@ -142,12 +142,6 @@
             border-left: 4px solid var(--primary-green);
         }
 
-        .next-timing-highlight { 
-            background-color: #d1ecf1 !important; 
-            color: #0c5460; 
-            border-radius: 5px;
-        }
-        
         .highlight-siren {
             background-color: var(--accent-gold) !important;
             animation: blinker 0.8s linear infinite;
@@ -174,16 +168,14 @@
             color: var(--primary-green);
         }
 
-        /* Mobile specific grid */
         @media (max-width: 450px) {
             .actions { grid-template-columns: 1fr; }
-            .calendar-card { padding: 10px; }
             header h1 { font-size: 1.1rem; }
         }
     </style>
 </head>
 
-<body onclick="startSystem()">
+<body onclick="forceActivate()">
 
     <div class="calendar-card">
         <header>
@@ -202,12 +194,12 @@
                 <span id="duaIcon">▶</span> <span id="duaText">Listen Ramadan Dua</span>
             </button>
             <button class="dua-btn test" onclick="testSiren(event)">
-                <span>🔔</span> Test Siren Sound
+                <span>🔔</span> Test New Siren
             </button>
         </div>
 
         <audio id="sirenSound" preload="auto">
-            <source src="https://www.naataudio.com/downloads/IslamicRingtones/Sehri-Iftar-Alarm.mp3" type="audio/mpeg">
+            <source src="a4c626dfbc5edd03f0fe2a485071f8ce21a45135-1433849706.287.mp3" type="audio/mpeg">
         </audio>
         
         <audio id="duaAudio" preload="auto">
@@ -227,40 +219,13 @@
                 <tbody>
                     <tr data-date="19 Feb 2026"><td>1</td><td>05:46 AM</td><td>06:29 PM</td><td>19 Feb</td></tr>
                     <tr data-date="20 Feb 2026"><td>2</td><td>05:45 AM</td><td>06:30 PM</td><td>20 Feb</td></tr>
-                    <tr data-date="21 Feb 2026"><td>3</td><td>05:44 AM</td><td>06:31 PM</td><td>21 Feb</td></tr>
-                    <tr data-date="22 Feb 2026"><td>4</td><td>05:44 AM</td><td>06:31 PM</td><td>22 Feb</td></tr>
-                    <tr data-date="23 Feb 2026"><td>5</td><td>05:43 AM</td><td>06:32 PM</td><td>23 Feb</td></tr>
-                    <tr data-date="24 Feb 2026"><td>6</td><td>05:42 AM</td><td>06:32 PM</td><td>24 Feb</td></tr>
-                    <tr data-date="25 Feb 2026"><td>7</td><td>05:41 AM</td><td>06:33 PM</td><td>25 Feb</td></tr>
-                    <tr data-date="26 Feb 2026"><td>8</td><td>05:40 AM</td><td>06:33 PM</td><td>26 Feb</td></tr>
                     <tr data-date="27 Feb 2026"><td>9</td><td>05:40 AM</td><td>06:34 PM</td><td>27 Feb</td></tr>
-                    <tr data-date="28 Feb 2026"><td>10</td><td>05:39 AM</td><td>06:34 PM</td><td>28 Feb</td></tr>
-                    <tr data-date="01 Mar 2026"><td>11</td><td>05:38 AM</td><td>06:35 PM</td><td>01 Mar</td></tr>
-                    <tr data-date="02 Mar 2026"><td>12</td><td>05:37 AM</td><td>06:35 PM</td><td>02 Mar</td></tr>
-                    <tr data-date="03 Mar 2026"><td>13</td><td>05:36 AM</td><td>06:36 PM</td><td>03 Mar</td></tr>
-                    <tr data-date="04 Mar 2026"><td>14</td><td>05:35 AM</td><td>06:36 PM</td><td>04 Mar</td></tr>
-                    <tr data-date="05 Mar 2026"><td>15</td><td>05:34 AM</td><td>06:37 PM</td><td>05 Mar</td></tr>
-                    <tr data-date="06 Mar 2026"><td>16</td><td>05:33 AM</td><td>06:37 PM</td><td>06 Mar</td></tr>
-                    <tr data-date="07 Mar 2026"><td>17</td><td>05:32 AM</td><td>06:38 PM</td><td>07 Mar</td></tr>
-                    <tr data-date="08 Mar 2026"><td>18</td><td>05:31 AM</td><td>06:38 PM</td><td>08 Mar</td></tr>
-                    <tr data-date="09 Mar 2026"><td>19</td><td>05:30 AM</td><td>06:39 PM</td><td>09 Mar</td></tr>
-                    <tr data-date="10 Mar 2026"><td>20</td><td>05:30 AM</td><td>06:39 PM</td><td>10 Mar</td></tr>
-                    <tr data-date="11 Mar 2026"><td>21</td><td>05:29 AM</td><td>06:40 PM</td><td>11 Mar</td></tr>
-                    <tr data-date="12 Mar 2026"><td>22</td><td>05:28 AM</td><td>06:40 PM</td><td>12 Mar</td></tr>
-                    <tr data-date="13 Mar 2026"><td>23</td><td>05:27 AM</td><td>06:41 PM</td><td>13 Mar</td></tr>
-                    <tr data-date="14 Mar 2026"><td>24</td><td>05:25 AM</td><td>06:41 PM</td><td>14 Mar</td></tr>
-                    <tr data-date="15 Mar 2026"><td>25</td><td>05:24 AM</td><td>06:42 PM</td><td>15 Mar</td></tr>
-                    <tr data-date="16 Mar 2026"><td>26</td><td>05:23 AM</td><td>06:42 PM</td><td>16 Mar</td></tr>
-                    <tr data-date="17 Mar 2026"><td>27</td><td>05:22 AM</td><td>06:43 PM</td><td>17 Mar</td></tr>
-                    <tr data-date="18 Mar 2026"><td>28</td><td>05:21 AM</td><td>06:43 PM</td><td>18 Mar</td></tr>
-                    <tr data-date="19 Mar 2026"><td>29</td><td>05:20 AM</td><td>06:43 PM</td><td>19 Mar</td></tr>
-                    <tr data-date="20 Mar 2026"><td>30</td><td>05:19 AM</td><td>06:44 PM</td><td>20 Mar</td></tr>
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
         <div class="footer-notes">
-            <strong>Note:</strong> Browser security ki wajah se siren active karne ke liye screen par ek baar click lazmi hai. Page ko background mein open rakhen.
+            <strong>Note:</strong> Browser security ki wajah se siren active karne ke liye screen par ek baar click lazmi hai. 
         </div>
 
         <div class="credits">
@@ -275,31 +240,40 @@
         const siren = document.getElementById("sirenSound");
         const dua = document.getElementById("duaAudio");
 
-        // Unlock audio for mobile devices
-        function startSystem() {
+        function forceActivate() {
             if (!isSystemActive) {
-                // Play and immediately pause to "unlock" the audio context
-                siren.play().then(() => {
-                    siren.pause();
-                    siren.currentTime = 0;
-                    document.getElementById("statusText").innerHTML = "✅ AUTO-SIREN ACTIVE";
-                    document.getElementById("statusText").style.color = "#1e5631";
-                    document.getElementById("statusText").style.animation = "none";
-                    isSystemActive = true;
-                }).catch(e => console.log("Unlock failed: User must interact first."));
+                siren.load();
+                dua.load();
+
+                const startAudio = (audio) => {
+                    audio.play().then(() => {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }).catch(e => console.log("Audio Wake-up Blocked"));
+                };
+
+                startAudio(siren);
+                startAudio(dua);
+
+                const status = document.getElementById("statusText");
+                status.innerHTML = "✅ AUTO-SIREN READY";
+                status.style.color = "#1e5631";
+                status.style.animation = "none";
+                
+                isSystemActive = true;
             }
         }
 
         function testSiren(e) {
-            e.stopPropagation(); // Card click trigger na ho
-            startSystem();
+            e.stopPropagation(); 
+            forceActivate();
             siren.currentTime = 0;
             siren.play();
         }
 
         function playDua(e) {
             e.stopPropagation();
-            startSystem();
+            forceActivate();
             const btnText = document.getElementById("duaText");
             const btnIcon = document.getElementById("duaIcon");
 
@@ -316,10 +290,12 @@
 
         function updateApp() {
             const now = new Date();
-            // Local time formatted for comparison
-            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(/^0/, '');
+            const timeStr = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                hour12: true 
+            }).replace(/^0/, '').replace(/[\u202f\u00a0]/g, ' ');
 
-            // Update Clock
             document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', {
                 hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit'
             });
@@ -333,37 +309,27 @@
                 const iftarStr = r.cells[2].innerText.trim();
                 const rowDate = new Date(rowDateStr);
 
-                // Clean styles
-                r.classList.remove("today-row", "highlight-siren");
-                r.cells[1].classList.remove("next-timing-highlight");
-                r.cells[2].classList.remove("next-timing-highlight");
-
-                // Check if today
                 if (now.toDateString() === rowDate.toDateString()) {
                     r.classList.add("today-row");
 
-                    // Siren Logic: Only trigger if system is active and it's the right minute
                     if (timeStr === sehriStr || timeStr === iftarStr) {
                         r.classList.add("highlight-siren");
                         if (isSystemActive && lastPlayedKey !== (rowDateStr + timeStr)) {
                             siren.play();
-                            lastPlayedKey = rowDateStr + timeStr; // Prevent double firing
+                            lastPlayedKey = rowDateStr + timeStr;
                         }
                     }
                 }
 
-                // Countdown Logic
                 const sDate = new Date(`${rowDateStr} ${sehriStr}`);
                 const iDate = new Date(`${rowDateStr} ${iftarStr}`);
 
                 if (!targetFound) {
                     if (now < sDate) {
                         updateTimer(sDate, "Sehri");
-                        r.cells[1].classList.add("next-timing-highlight");
                         targetFound = true;
                     } else if (now < iDate) {
                         updateTimer(iDate, "Iftar");
-                        r.cells[2].classList.add("next-timing-highlight");
                         targetFound = true;
                     }
                 }
@@ -378,10 +344,8 @@
             document.getElementById("countdown").innerText = `${label} in: ${h}h ${m}m ${s}s`;
         }
 
-        // Run every second
         setInterval(updateApp, 1000);
-        updateApp(); // Initial call
+        updateApp();
     </script>
 </body>
-
 </html>
