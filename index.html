@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Karachi Ramadan 2026 - Live Countdown & Siren</title>
+    <title>Karachi Ramadan 2026 - Responsive Siren</title>
     <style>
         :root {
             --primary-green: #1e5631;
@@ -25,25 +25,23 @@
             padding: 10px;
         }
 
-        /* Responsive Container */
         .calendar-card {
             background: white;
             padding: 15px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px; /* Mobile Friendly Width */
+            max-width: 450px;
             border-top: 10px solid var(--primary-green);
         }
 
         header h1 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--primary-green);
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
-        /* Status & Clock */
         .status-bar {
             background: #f0f9f1;
             padding: 15px;
@@ -54,33 +52,32 @@
         }
 
         #clock {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 800;
             font-family: 'Courier New', monospace;
             color: #333;
         }
 
         .countdown-box {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--danger-red);
             font-weight: bold;
-            margin-top: 8px;
+            margin-top: 5px;
             display: block;
         }
 
-        /* Mobile Responsive Buttons */
         .activation-btn {
             width: 100%;
-            padding: 18px;
+            padding: 15px;
             background: #ff9800;
             color: white;
             border: none;
             border-radius: 12px;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255,152,0,0.3);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.3);
             animation: pulse 2s infinite;
         }
 
@@ -91,32 +88,23 @@
             margin-bottom: 15px;
         }
 
-        .dua-btn {
-            background: var(--primary-green);
-            color: white;
+        .dua-btn, .test-btn {
             border: none;
             padding: 12px;
             border-radius: 10px;
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-        }
-
-        .test-btn {
-            background: #555;
             color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            cursor: pointer;
         }
 
-        /* Scrollable Table for Mobile */
+        .dua-btn { background: var(--primary-green); }
+        .test-btn { background: #555; }
+
         .table-container {
             width: 100%;
             overflow-y: auto;
-            max-height: 350px; /* Important for mobile height */
+            max-height: 300px;
             border-radius: 10px;
             border: 1px solid #eee;
         }
@@ -125,21 +113,18 @@
         th { background: var(--primary-green); color: white; padding: 10px; position: sticky; top: 0; }
         td { padding: 10px; border-bottom: 1px solid #f0f0f0; text-align: center; }
 
-        .today-row { background-color: #fff9c4 !important; font-weight: bold; }
+        .today-row { background-color: #fffde7 !important; border-left: 4px solid var(--accent-gold); }
         .highlight-siren { background-color: var(--accent-gold) !important; animation: flash 1s infinite; }
 
-        @keyframes flash { 50% { opacity: 0.5; } }
-        @keyframes pulse { 
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
+        @keyframes flash { 50% { opacity: 0.6; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
 
         .credits {
             text-align: center;
             margin-top: 15px;
-            font-size: 0.8rem;
-            color: var(--primary-green);
+            font-size: 0.75rem;
+            color: #777;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -155,12 +140,12 @@
         </header>
 
         <button id="activateBtn" class="activation-btn" onclick="startSirenSystem()">
-            🔊 ACTIVATE AUTO-SIREN
+            🔔 TAP TO ACTIVATE SIREN
         </button>
 
         <div class="actions">
             <button class="dua-btn" onclick="playDua()">▶ Listen Dua</button>
-            <button class="test-btn" onclick="testSiren()">🔔 Test Sound</button>
+            <button class="test-btn" onclick="testSiren()">🔊 Test Siren</button>
         </div>
 
         <div class="table-container">
@@ -173,13 +158,12 @@
                         <th>Date</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
 
         <div class="credits">
-            Made By: <b>SYED MUHAMMAD HASSAN ALI</b><br>
+            <b>SYED MUHAMMAD HASSAN ALI</b><br>
             Islamic Studio YouTube Channel
         </div>
     </div>
@@ -228,92 +212,112 @@
         let isAudioUnlocked = false;
         let lastPlayedKey = "";
 
-        // Render Table
+        // Render Table Once
         const tbody = document.getElementById('tableBody');
         ramadanData.forEach(d => {
             const tr = document.createElement('tr');
+            tr.id = `day-${d[0]}`;
             tr.setAttribute('data-date', d[3]);
-            tr.innerHTML = `<td>${d[0]}</td><td>${d[1]}</td><td>${d[2]}</td><td>${d[3].split(' ')[0] + ' ' + d[3].split(' ')[1]}</td>`;
+            tr.innerHTML = `<td>${d[0]}</td><td>${d[1]}</td><td>${d[2]}</td><td>${d[3].split(' ')[0]} ${d[3].split(' ')[1]}</td>`;
             tbody.appendChild(tr);
         });
 
-        // The "Secret Sauce" for Mobile Audio
         function startSirenSystem() {
             const siren = document.getElementById("sirenSound");
+            const dua = document.getElementById("duaAudio");
+            
+            // Audio Context Unlock for Mobile
             siren.play().then(() => {
-                siren.pause(); // Just a quick play/pause to tell Mobile OS it's allowed
+                siren.pause();
                 siren.currentTime = 0;
+                dua.play().then(() => { dua.pause(); dua.currentTime = 0; });
+                
                 isAudioUnlocked = true;
                 const btn = document.getElementById("activateBtn");
-                btn.innerText = "✅ SIREN SYSTEM ACTIVE";
+                btn.innerText = "✅ SIREN IS READY";
                 btn.style.background = "#1e5631";
                 btn.style.animation = "none";
-            }).catch(e => alert("Please tap again to allow sound."));
+            }).catch(() => {
+                alert("Please enable sound permissions in your browser.");
+            });
         }
 
         function testSiren() {
             const siren = document.getElementById("sirenSound");
             siren.currentTime = 0;
-            siren.play();
+            siren.play().catch(() => alert("Click the Orange Button first!"));
         }
 
         function playDua() {
-            document.getElementById("duaAudio").play();
+            const dua = document.getElementById("duaAudio");
+            dua.currentTime = 0;
+            dua.play().catch(() => alert("Click the Orange Button first!"));
         }
 
         function updateApp() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(/^0/, '');
             
-            document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            // Time string formatting for comparison
+            const options = { hour: '2-digit', minute: '2-digit', hour12: true };
+            let timeStr = now.toLocaleTimeString('en-US', options); 
+            // Fix: Normalize "05:46 AM" to match table
+            if(timeStr.startsWith('00')) timeStr = timeStr.replace('00', '12');
+
+            document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', { 
+                hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' 
+            });
 
             const rows = document.querySelectorAll("#ramadanTable tbody tr");
             let targetFound = false;
 
             rows.forEach(r => {
-                const dateAttr = r.getAttribute('data-date');
-                const rowDate = new Date(dateAttr);
-                const sehriStr = r.cells[1].innerText.trim();
-                const iftarStr = r.cells[2].innerText.trim();
+                const dateStr = r.getAttribute('data-date');
+                const rowDate = new Date(dateStr);
+                const sehriTime = r.cells[1].innerText.trim();
+                const iftarTime = r.cells[2].innerText.trim();
 
                 r.classList.remove("today-row", "highlight-siren");
 
+                // Today check
                 if (now.toDateString() === rowDate.toDateString()) {
                     r.classList.add("today-row");
 
-                    // SIREN LOGIC
-                    if ((timeStr === sehriStr || timeStr === iftarStr)) {
+                    // Siren logic (Match check)
+                    if (timeStr === sehriTime || timeStr === iftarTime) {
                         r.classList.add("highlight-siren");
-                        if (isAudioUnlocked && lastPlayedKey !== timeStr) {
+                        if (isAudioUnlocked && lastPlayedKey !== (dateStr + timeStr)) {
                             document.getElementById("sirenSound").play();
-                            lastPlayedKey = timeStr;
+                            lastPlayedKey = dateStr + timeStr;
                         }
                     }
                 }
 
-                // Countdown logic
-                const sTime = new Date(`${dateAttr} ${sehriStr}`);
-                const iTime = new Date(`${dateAttr} ${iftarStr}`);
+                // Countdown Logic
+                const sFull = new Date(`${dateStr} ${sehriTime}`);
+                const iFull = new Date(`${dateStr} ${iftarTime}`);
 
                 if (!targetFound) {
-                    if (now < sTime) {
-                        setTimer(sTime, "Next Sehri"); targetFound = true;
-                    } else if (now < iTime) {
-                        setTimer(iTime, "Today's Iftar"); targetFound = true;
+                    if (now < sFull) {
+                        updateTimer(sFull, "Next Sehri"); targetFound = true;
+                    } else if (now < iFull) {
+                        updateTimer(iFull, "Today's Iftar"); targetFound = true;
                     }
                 }
             });
         }
 
-        function setTimer(target, label) {
+        function updateTimer(target, label) {
             const diff = target - new Date();
             const h = Math.floor(diff / 3600000);
             const m = Math.floor((diff % 3600000) / 60000);
             const s = Math.floor((diff % 60000) / 1000);
-            document.getElementById("countdown").innerText = `${label} in: ${h}h ${m}m ${s}s`;
+            document.getElementById("countdown").innerText = `${label}: ${h}h ${m}m ${s}s`;
         }
 
+        // Run every second
         setInterval(updateApp, 1000);
+        // Initial run
+        updateApp();
     </script>
 </body>
 </html>
