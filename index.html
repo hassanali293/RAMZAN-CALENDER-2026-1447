@@ -108,18 +108,17 @@
 
         .table-container {
             width: 100%;
-            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 400px;
             border-radius: 12px;
             border: 1px solid #eee;
             background: white;
-            -webkit-overflow-scrolling: touch;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.85rem;
-            min-width: 450px;
         }
 
         th {
@@ -128,6 +127,7 @@
             padding: 12px 5px;
             position: sticky;
             top: 0;
+            z-index: 10;
         }
 
         td {
@@ -139,7 +139,7 @@
         .today-row { 
             background-color: #e8f5e9 !important; 
             font-weight: bold;
-            border-left: 4px solid var(--primary-green);
+            border-left: 5px solid var(--primary-green);
         }
 
         .highlight-siren {
@@ -149,16 +149,6 @@
 
         @keyframes blinker { 50% { opacity: 0.5; } }
 
-        .footer-notes {
-            margin-top: 15px;
-            padding: 12px;
-            background: #fff9e6;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            color: #7d6608;
-            line-height: 1.4;
-        }
-
         .credits {
             margin-top: 20px;
             text-align: center;
@@ -166,11 +156,6 @@
             border-top: 1px solid #eee;
             padding-top: 10px;
             color: var(--primary-green);
-        }
-
-        @media (max-width: 450px) {
-            .actions { grid-template-columns: 1fr; }
-            header h1 { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -182,16 +167,16 @@
             <h1>🌙 Karachi Ramadan 2026</h1>
             <div class="status-bar">
                 <div id="clock">00:00:00 AM</div>
-                <div id="countdown" class="countdown-box">Loading Timer...</div>
+                <div id="countdown" class="countdown-box">Loading...</div>
                 <div id="statusText" style="color: var(--danger-red); font-size: 0.8rem; margin-top: 10px; font-weight: bold; animation: blinker 1s linear infinite;">
-                    ⚠️ TAP ANYWHERE TO START SIREN
+                    ⚠️ TAP ANYWHERE TO ACTIVATE SIREN
                 </div>
             </div>
         </header>
 
         <div class="actions">
             <button class="dua-btn" onclick="playDua(event)">
-                <span id="duaIcon">▶</span> <span id="duaText">Listen Ramadan Dua</span>
+                <span id="duaIcon">▶</span> <span id="duaText">Listen Dua</span>
             </button>
             <button class="dua-btn test" onclick="testSiren(event)">
                 <span>🔔</span> Test New Siren
@@ -210,7 +195,7 @@
             <table id="ramadanTable">
                 <thead>
                     <tr>
-                        <th>Ramadan</th>
+                        <th>Ram</th>
                         <th>Sehri</th>
                         <th>Iftar</th>
                         <th>Date</th>
@@ -219,13 +204,36 @@
                 <tbody>
                     <tr data-date="19 Feb 2026"><td>1</td><td>05:46 AM</td><td>06:29 PM</td><td>19 Feb</td></tr>
                     <tr data-date="20 Feb 2026"><td>2</td><td>05:45 AM</td><td>06:30 PM</td><td>20 Feb</td></tr>
+                    <tr data-date="21 Feb 2026"><td>3</td><td>05:44 AM</td><td>06:31 PM</td><td>21 Feb</td></tr>
+                    <tr data-date="22 Feb 2026"><td>4</td><td>05:44 AM</td><td>06:31 PM</td><td>22 Feb</td></tr>
+                    <tr data-date="23 Feb 2026"><td>5</td><td>05:43 AM</td><td>06:32 PM</td><td>23 Feb</td></tr>
+                    <tr data-date="24 Feb 2026"><td>6</td><td>05:42 AM</td><td>06:32 PM</td><td>24 Feb</td></tr>
+                    <tr data-date="25 Feb 2026"><td>7</td><td>05:41 AM</td><td>06:33 PM</td><td>25 Feb</td></tr>
+                    <tr data-date="26 Feb 2026"><td>8</td><td>05:40 AM</td><td>06:33 PM</td><td>26 Feb</td></tr>
                     <tr data-date="27 Feb 2026"><td>9</td><td>05:40 AM</td><td>06:34 PM</td><td>27 Feb</td></tr>
-                    </tbody>
+                    <tr data-date="28 Feb 2026"><td>10</td><td>05:39 AM</td><td>06:34 PM</td><td>28 Feb</td></tr>
+                    <tr data-date="01 Mar 2026"><td>11</td><td>05:38 AM</td><td>06:35 PM</td><td>01 Mar</td></tr>
+                    <tr data-date="02 Mar 2026"><td>12</td><td>05:37 AM</td><td>06:35 PM</td><td>02 Mar</td></tr>
+                    <tr data-date="03 Mar 2026"><td>13</td><td>05:36 AM</td><td>06:36 PM</td><td>03 Mar</td></tr>
+                    <tr data-date="04 Mar 2026"><td>14</td><td>05:35 AM</td><td>06:36 PM</td><td>04 Mar</td></tr>
+                    <tr data-date="05 Mar 2026"><td>15</td><td>05:34 AM</td><td>06:37 PM</td><td>05 Mar</td></tr>
+                    <tr data-date="06 Mar 2026"><td>16</td><td>05:33 AM</td><td>06:37 PM</td><td>06 Mar</td></tr>
+                    <tr data-date="07 Mar 2026"><td>17</td><td>05:32 AM</td><td>06:38 PM</td><td>07 Mar</td></tr>
+                    <tr data-date="08 Mar 2026"><td>18</td><td>05:31 AM</td><td>06:38 PM</td><td>08 Mar</td></tr>
+                    <tr data-date="09 Mar 2026"><td>19</td><td>05:30 AM</td><td>06:39 PM</td><td>09 Mar</td></tr>
+                    <tr data-date="10 Mar 2026"><td>20</td><td>05:30 AM</td><td>06:39 PM</td><td>10 Mar</td></tr>
+                    <tr data-date="11 Mar 2026"><td>21</td><td>05:29 AM</td><td>06:40 PM</td><td>11 Mar</td></tr>
+                    <tr data-date="12 Mar 2026"><td>22</td><td>05:28 AM</td><td>06:40 PM</td><td>12 Mar</td></tr>
+                    <tr data-date="13 Mar 2026"><td>23</td><td>05:27 AM</td><td>06:41 PM</td><td>13 Mar</td></tr>
+                    <tr data-date="14 Mar 2026"><td>24</td><td>05:25 AM</td><td>06:41 PM</td><td>14 Mar</td></tr>
+                    <tr data-date="15 Mar 2026"><td>25</td><td>05:24 AM</td><td>06:42 PM</td><td>15 Mar</td></tr>
+                    <tr data-date="16 Mar 2026"><td>26</td><td>05:23 AM</td><td>06:42 PM</td><td>16 Mar</td></tr>
+                    <tr data-date="17 Mar 2026"><td>27</td><td>05:22 AM</td><td>06:43 PM</td><td>17 Mar</td></tr>
+                    <tr data-date="18 Mar 2026"><td>28</td><td>05:21 AM</td><td>06:43 PM</td><td>18 Mar</td></tr>
+                    <tr data-date="19 Mar 2026"><td>29</td><td>05:20 AM</td><td>06:43 PM</td><td>19 Mar</td></tr>
+                    <tr data-date="20 Mar 2026"><td>30</td><td>05:19 AM</td><td>06:44 PM</td><td>20 Mar</td></tr>
+                </tbody>
             </table>
-        </div>
-
-        <div class="footer-notes">
-            <strong>Note:</strong> Browser security ki wajah se siren active karne ke liye screen par ek baar click lazmi hai. 
         </div>
 
         <div class="credits">
@@ -242,30 +250,20 @@
 
         function forceActivate() {
             if (!isSystemActive) {
-                siren.load();
-                dua.load();
-
-                const startAudio = (audio) => {
-                    audio.play().then(() => {
-                        audio.pause();
-                        audio.currentTime = 0;
-                    }).catch(e => console.log("Audio Wake-up Blocked"));
-                };
-
-                startAudio(siren);
-                startAudio(dua);
-
-                const status = document.getElementById("statusText");
-                status.innerHTML = "✅ AUTO-SIREN READY";
-                status.style.color = "#1e5631";
-                status.style.animation = "none";
+                // Mobile browsers need a user-triggered play to "unlock" audio
+                const unlock = (a) => { a.play().then(()=> { a.pause(); a.currentTime=0; }).catch(e=>console.log("retry")); };
+                unlock(siren);
+                unlock(dua);
                 
+                document.getElementById("statusText").innerHTML = "✅ AUTO-SIREN READY";
+                document.getElementById("statusText").style.color = "#1e5631";
+                document.getElementById("statusText").style.animation = "none";
                 isSystemActive = true;
             }
         }
 
         function testSiren(e) {
-            e.stopPropagation(); 
+            e.stopPropagation();
             forceActivate();
             siren.currentTime = 0;
             siren.play();
@@ -274,31 +272,18 @@
         function playDua(e) {
             e.stopPropagation();
             forceActivate();
-            const btnText = document.getElementById("duaText");
-            const btnIcon = document.getElementById("duaIcon");
-
-            if (dua.paused) {
-                dua.play();
-                btnText.innerText = "Playing Dua...";
-                btnIcon.innerText = "⏸";
-            } else {
-                dua.pause();
-                btnText.innerText = "Listen Ramadan Dua";
-                btnIcon.innerText = "▶";
-            }
+            const btnT = document.getElementById("duaText");
+            const btnI = document.getElementById("duaIcon");
+            if (dua.paused) { dua.play(); btnT.innerText = "Playing..."; btnI.innerText = "⏸"; }
+            else { dua.pause(); btnT.innerText = "Listen Dua"; btnI.innerText = "▶"; }
         }
 
         function updateApp() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                hour12: true 
-            }).replace(/^0/, '').replace(/[\u202f\u00a0]/g, ' ');
+            // Modern formatting to match table exactly
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(/^0/, '');
 
-            document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', {
-                hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit'
-            });
+            document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
             const rows = document.querySelectorAll("#ramadanTable tbody tr");
             let targetFound = false;
@@ -309,9 +294,11 @@
                 const iftarStr = r.cells[2].innerText.trim();
                 const rowDate = new Date(rowDateStr);
 
+                r.classList.remove("today-row", "highlight-siren");
+
                 if (now.toDateString() === rowDate.toDateString()) {
                     r.classList.add("today-row");
-
+                    // Siren check
                     if (timeStr === sehriStr || timeStr === iftarStr) {
                         r.classList.add("highlight-siren");
                         if (isSystemActive && lastPlayedKey !== (rowDateStr + timeStr)) {
@@ -321,6 +308,7 @@
                     }
                 }
 
+                // Timer Logic
                 const sDate = new Date(`${rowDateStr} ${sehriStr}`);
                 const iDate = new Date(`${rowDateStr} ${iftarStr}`);
 
