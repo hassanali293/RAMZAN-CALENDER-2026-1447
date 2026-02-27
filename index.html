@@ -103,6 +103,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .dua-btn.active-sys { background: #27ae60; border: 2px solid gold; }
         .dua-btn.test { background: var(--danger-red); }
         .dua-btn:active { transform: scale(0.95); }
 
@@ -181,17 +182,17 @@
                 <div id="clock">00:00:00 AM</div>
                 <div id="countdown" class="countdown-box">Loading...</div>
                 <div id="statusText" style="color: var(--danger-red); font-size: 0.8rem; margin-top: 10px; font-weight: bold; animation: blinker 1s linear infinite;">
-                    ⚠️ TAP ANYWHERE TO START SIREN
+                    ⚠️ TAP ANYWHERE TO ENABLE SIREN
                 </div>
             </div>
         </header>
 
         <div class="actions">
-            <button class="dua-btn" onclick="playDua(event)">
+            <button class="dua-btn" id="duaBtn" onclick="playDua(event)">
                 <span id="duaIcon">▶</span> <span id="duaText">Listen Dua</span>
             </button>
             <button class="dua-btn test" onclick="testSiren(event)">
-                <span>🔔</span> Test New Siren
+                <span>🔔</span> Test Siren Now
             </button>
         </div>
 
@@ -224,32 +225,12 @@
                     <tr data-date="26 Feb 2026"><td>8</td><td>05:40 AM</td><td>06:33 PM</td><td>26 Feb</td></tr>
                     <tr data-date="27 Feb 2026"><td>9</td><td>05:40 AM</td><td>06:34 PM</td><td>27 Feb</td></tr>
                     <tr data-date="28 Feb 2026"><td>10</td><td>05:39 AM</td><td>06:34 PM</td><td>28 Feb</td></tr>
-                    <tr data-date="01 Mar 2026"><td>11</td><td>05:38 AM</td><td>06:35 PM</td><td>01 Mar</td></tr>
-                    <tr data-date="02 Mar 2026"><td>12</td><td>05:37 AM</td><td>06:35 PM</td><td>02 Mar</td></tr>
-                    <tr data-date="03 Mar 2026"><td>13</td><td>05:36 AM</td><td>06:36 PM</td><td>03 Mar</td></tr>
-                    <tr data-date="04 Mar 2026"><td>14</td><td>05:35 AM</td><td>06:36 PM</td><td>04 Mar</td></tr>
-                    <tr data-date="05 Mar 2026"><td>15</td><td>05:34 AM</td><td>06:37 PM</td><td>05 Mar</td></tr>
-                    <tr data-date="06 Mar 2026"><td>16</td><td>05:33 AM</td><td>06:37 PM</td><td>06 Mar</td></tr>
-                    <tr data-date="07 Mar 2026"><td>17</td><td>05:32 AM</td><td>06:38 PM</td><td>07 Mar</td></tr>
-                    <tr data-date="08 Mar 2026"><td>18</td><td>05:31 AM</td><td>06:38 PM</td><td>08 Mar</td></tr>
-                    <tr data-date="09 Mar 2026"><td>19</td><td>05:30 AM</td><td>06:39 PM</td><td>09 Mar</td></tr>
-                    <tr data-date="10 Mar 2026"><td>20</td><td>05:30 AM</td><td>06:39 PM</td><td>10 Mar</td></tr>
-                    <tr data-date="11 Mar 2026"><td>21</td><td>05:29 AM</td><td>06:40 PM</td><td>11 Mar</td></tr>
-                    <tr data-date="12 Mar 2026"><td>22</td><td>05:28 AM</td><td>06:40 PM</td><td>12 Mar</td></tr>
-                    <tr data-date="13 Mar 2026"><td>23</td><td>05:27 AM</td><td>06:41 PM</td><td>13 Mar</td></tr>
-                    <tr data-date="14 Mar 2026"><td>24</td><td>05:25 AM</td><td>06:41 PM</td><td>14 Mar</td></tr>
-                    <tr data-date="15 Mar 2026"><td>25</td><td>05:24 AM</td><td>06:42 PM</td><td>15 Mar</td></tr>
-                    <tr data-date="16 Mar 2026"><td>26</td><td>05:23 AM</td><td>06:42 PM</td><td>16 Mar</td></tr>
-                    <tr data-date="17 Mar 2026"><td>27</td><td>05:22 AM</td><td>06:43 PM</td><td>17 Mar</td></tr>
-                    <tr data-date="18 Mar 2026"><td>28</td><td>05:21 AM</td><td>06:43 PM</td><td>18 Mar</td></tr>
-                    <tr data-date="19 Mar 2026"><td>29</td><td>05:20 AM</td><td>06:43 PM</td><td>19 Mar</td></tr>
-                    <tr data-date="20 Mar 2026"><td>30</td><td>05:19 AM</td><td>06:44 PM</td><td>20 Mar</td></tr>
                 </tbody>
             </table>
         </div>
 
         <div class="footer-notes">
-            <strong>Note:</strong> Auto-siren ke liye screen par ek bar tap zarur karein taake status green ho jaye.
+            <strong>Zaruri Note:</strong> Browser auto-audio block karta hai. Page kholne ke baad screen par ek baar click lazmi karein taake "AUTO-SIREN READY" likha aa jaye.
         </div>
 
         <div class="credits">
@@ -264,20 +245,27 @@
         const siren = document.getElementById("sirenSound");
         const dua = document.getElementById("duaAudio");
 
+        // System ko active karne ka function
         function forceActivate() {
             if (!isSystemActive) {
-                // Audio Unlocker for Mobile Browsers
-                const unlock = (a) => {
-                    a.play().then(() => { a.pause(); a.currentTime = 0; }).catch(e => console.log("Unlock Error"));
-                };
-                unlock(siren);
-                unlock(dua);
+                // Play and immediately pause to "unlock" audio context
+                siren.play().then(() => {
+                    siren.pause();
+                    siren.currentTime = 0;
+                }).catch(e => console.log("Siren Unlock Pending..."));
+
+                dua.play().then(() => {
+                    dua.pause();
+                    dua.currentTime = 0;
+                }).catch(e => console.log("Dua Unlock Pending..."));
 
                 const status = document.getElementById("statusText");
                 status.innerHTML = "✅ AUTO-SIREN READY";
                 status.style.color = "#1e5631";
                 status.style.animation = "none";
+                
                 isSystemActive = true;
+                console.log("System Activated");
             }
         }
 
@@ -285,7 +273,7 @@
             e.stopPropagation();
             forceActivate();
             siren.currentTime = 0;
-            siren.play();
+            siren.play().catch(err => alert("Error: Audio file not found or not loaded yet."));
         }
 
         function playDua(e) {
@@ -307,12 +295,14 @@
 
         function updateApp() {
             const now = new Date();
-            // Important: Format exactly like the table cells
-            const timeStr = now.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true
-            }).replace(/^0/, '').replace(/[\u202f\u00a0]/g, ' ');
+            
+            // Current Time formatting to match table (e.g., "05:46 AM")
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12;
+            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const timeStr = `${displayHours < 10 ? '0' + displayHours : displayHours}:${displayMinutes} ${ampm}`;
 
             document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', {
                 hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit'
@@ -327,17 +317,20 @@
                 const iftarStr = r.cells[2].innerText.trim();
                 const rowDate = new Date(rowDateStr);
 
+                // Reset highlights
                 r.classList.remove("today-row", "highlight-siren");
 
                 if (now.toDateString() === rowDate.toDateString()) {
                     r.classList.add("today-row");
 
-                    // Siren Trigger Logic
+                    // SIREN TRIGGER LOGIC
                     if (timeStr === sehriStr || timeStr === iftarStr) {
                         r.classList.add("highlight-siren");
+                        
+                        // Sirf tab bajaye jab system active ho aur is minute mein na baja ho
                         if (isSystemActive && lastPlayedKey !== (rowDateStr + timeStr)) {
                             siren.currentTime = 0;
-                            siren.play();
+                            siren.play().catch(e => console.log("Playback failed", e));
                             lastPlayedKey = rowDateStr + timeStr;
                         }
                     }
@@ -367,6 +360,7 @@
             document.getElementById("countdown").innerText = `${label} in: ${h}h ${m}m ${s}s`;
         }
 
+        // Run every second
         setInterval(updateApp, 1000);
         updateApp();
     </script>
