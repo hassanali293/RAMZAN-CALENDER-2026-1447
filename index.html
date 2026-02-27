@@ -1,368 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Karachi Ramadan 2026 - Live Countdown & Siren</title>
-    <style>
-        :root {
-            --primary-green: #1e5631;
-            --accent-gold: #f1c40f;
-            --danger-red: #c0392b;
-            --light-bg: #f4f7f6;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramadan Siren System</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+<style>
 
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--light-bg);
-            color: #2c3e50;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 10px;
-        }
+body{
+font-family:Arial;
+background:#f4f7f6;
+text-align:center;
+padding:20px;
+}
 
-        .calendar-card {
-            background: white;
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 600px;
-            border-top: 8px solid var(--primary-green);
-        }
+.card{
+max-width:500px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
 
-        header h1 {
-            font-size: 1.2rem;
-            color: var(--primary-green);
-            text-align: center;
-            margin-bottom: 15px;
-        }
+.clock{
+font-size:28px;
+font-weight:bold;
+margin-bottom:10px;
+}
 
-        .status-bar {
-            background: #f0f9f1;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-            border: 1px solid #d4ebd5;
-        }
+.countdown{
+font-size:18px;
+color:red;
+margin-bottom:15px;
+}
 
-        #clock {
-            font-size: 1.6rem;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-            color: #333;
-            display: block;
-        }
+button{
+padding:12px 20px;
+border:none;
+background:#1e5631;
+color:white;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+margin:5px;
+}
 
-        .countdown-box {
-            font-size: 1rem;
-            color: var(--danger-red);
-            font-weight: 600;
-            padding: 8px 12px;
-            background: white;
-            border-radius: 10px;
-            display: inline-block;
-            border: 1px solid #ffdada;
-            margin-top: 10px;
-            width: 100%;
-            max-width: 280px;
-        }
+button:active{
+transform:scale(.95);
+}
 
-        .actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .dua-btn {
-            background: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 14px 5px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .dua-btn.active-sys { background: #27ae60; border: 2px solid gold; }
-        .dua-btn.test { background: var(--danger-red); }
-        .dua-btn:active { transform: scale(0.95); }
-
-        .table-container {
-            width: 100%;
-            overflow-y: auto;
-            max-height: 400px;
-            border-radius: 12px;
-            border: 1px solid #eee;
-            background: white;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-
-        th {
-            background-color: var(--primary-green);
-            color: white;
-            padding: 12px 5px;
-            position: sticky;
-            top: 0;
-            z-index: 5;
-        }
-
-        td {
-            padding: 12px 5px;
-            border-bottom: 1px solid #f0f0f0;
-            text-align: center;
-        }
-
-        .today-row {
-            background-color: #e8f5e9 !important;
-            font-weight: bold;
-            border-left: 5px solid var(--primary-green);
-        }
-
-        .highlight-siren {
-            background-color: var(--accent-gold) !important;
-            animation: blinker 0.8s linear infinite;
-        }
-
-        @keyframes blinker {
-            50% { opacity: 0.5; }
-        }
-
-        .footer-notes {
-            margin-top: 15px;
-            padding: 12px;
-            background: #fff9e6;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            color: #7d6608;
-            line-height: 1.4;
-        }
-
-        .credits {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.8rem;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-            color: var(--primary-green);
-        }
-    </style>
+</style>
 </head>
 
-<body onclick="forceActivate()">
+<body onclick="activateSystem()">
 
-    <div class="calendar-card">
-        <header>
-            <h1>🌙 Karachi Ramadan 2026</h1>
-            <div class="status-bar">
-                <div id="clock">00:00:00 AM</div>
-                <div id="countdown" class="countdown-box">Loading...</div>
-                <div id="statusText" style="color: var(--danger-red); font-size: 0.8rem; margin-top: 10px; font-weight: bold; animation: blinker 1s linear infinite;">
-                    ⚠️ TAP ANYWHERE TO ENABLE SIREN
-                </div>
-            </div>
-        </header>
+<div class="card">
 
-        <div class="actions">
-            <button class="dua-btn" id="duaBtn" onclick="playDua(event)">
-                <span id="duaIcon">▶</span> <span id="duaText">Listen Dua</span>
-            </button>
-            <button class="dua-btn test" onclick="testSiren(event)">
-                <span>🔔</span> Test Siren Now
-            </button>
-        </div>
+<h2>🌙 Ramadan 2026</h2>
+<p>📍 Karachi (Hanafi)</p>
 
-        <audio id="sirenSound" preload="auto">
-            <source src="a4c626dfbc5edd03f0fe2a485071f8ce21a45135-1433849706.287.mp3" type="audio/mpeg">
-        </audio>
+<div class="clock" id="clock"></div>
+<div class="countdown" id="countdown">Loading...</div>
 
-        <audio id="duaAudio" preload="auto">
-            <source src="Video.Guru_20260102_152237875.mp3" type="audio/mpeg">
-        </audio>
+<button onclick="testSiren(event)">🔔 Test Siren</button>
+<button onclick="playDua(event)">▶ Roza Dua</button>
 
-        <div class="table-container">
-            <table id="ramadanTable">
-                <thead>
-                    <tr>
-                        <th>Ramadan</th>
-                        <th>Sehri</th>
-                        <th>Iftar</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-date="19 Feb 2026"><td>1</td><td>05:46 AM</td><td>06:29 PM</td><td>19 Feb</td></tr>
-                    <tr data-date="20 Feb 2026"><td>2</td><td>05:45 AM</td><td>06:30 PM</td><td>20 Feb</td></tr>
-                    <tr data-date="21 Feb 2026"><td>3</td><td>05:44 AM</td><td>06:31 PM</td><td>21 Feb</td></tr>
-                    <tr data-date="22 Feb 2026"><td>4</td><td>05:44 AM</td><td>06:31 PM</td><td>22 Feb</td></tr>
-                    <tr data-date="23 Feb 2026"><td>5</td><td>05:43 AM</td><td>06:32 PM</td><td>23 Feb</td></tr>
-                    <tr data-date="24 Feb 2026"><td>6</td><td>05:42 AM</td><td>06:32 PM</td><td>24 Feb</td></tr>
-                    <tr data-date="25 Feb 2026"><td>7</td><td>05:41 AM</td><td>06:33 PM</td><td>25 Feb</td></tr>
-                    <tr data-date="26 Feb 2026"><td>8</td><td>05:40 AM</td><td>06:33 PM</td><td>26 Feb</td></tr>
-                    <tr data-date="27 Feb 2026"><td>9</td><td>05:40 AM</td><td>06:34 PM</td><td>27 Feb</td></tr>
-                    <tr data-date="28 Feb 2026"><td>10</td><td>05:39 AM</td><td>06:34 PM</td><td>28 Feb</td></tr>
-                </tbody>
-            </table>
-        </div>
+</div>
 
-        <div class="footer-notes">
-            <strong>Zaruri Note:</strong> Browser auto-audio block karta hai. Page kholne ke baad screen par ek baar click lazmi karein taake "AUTO-SIREN READY" likha aa jaye.
-        </div>
+<audio id="siren">
+<source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+</audio>
 
-        <div class="credits">
-            Made By: <strong>SYED MUHAMMAD HASSAN ALI</strong><br>
-            <span style="font-size: 0.7rem;">Islamic Studio YouTube Channel</span>
-        </div>
-    </div>
+<audio id="dua">
+<source src="Video.Guru_20260102_152237875.mp3" type="audio/mpeg">
+</audio>
 
-    <script>
-        let isSystemActive = false;
-        let lastPlayedKey = "";
-        const siren = document.getElementById("sirenSound");
-        const dua = document.getElementById("duaAudio");
+<script>
 
-        // System ko active karne ka function
-        function forceActivate() {
-            if (!isSystemActive) {
-                // Play and immediately pause to "unlock" audio context
-                siren.play().then(() => {
-                    siren.pause();
-                    siren.currentTime = 0;
-                }).catch(e => console.log("Siren Unlock Pending..."));
+let active=false
+let lastPlay=""
 
-                dua.play().then(() => {
-                    dua.pause();
-                    dua.currentTime = 0;
-                }).catch(e => console.log("Dua Unlock Pending..."));
+const siren=document.getElementById("siren")
+const dua=document.getElementById("dua")
 
-                const status = document.getElementById("statusText");
-                status.innerHTML = "✅ AUTO-SIREN READY";
-                status.style.color = "#1e5631";
-                status.style.animation = "none";
-                
-                isSystemActive = true;
-                console.log("System Activated");
-            }
-        }
+const timetable={
 
-        function testSiren(e) {
-            e.stopPropagation();
-            forceActivate();
-            siren.currentTime = 0;
-            siren.play().catch(err => alert("Error: Audio file not found or not loaded yet."));
-        }
+"19 Feb 2026":{sehri:"05:46 AM",iftar:"06:29 PM"},
+"20 Feb 2026":{sehri:"05:45 AM",iftar:"06:30 PM"},
+"21 Feb 2026":{sehri:"05:44 AM",iftar:"06:31 PM"},
+"22 Feb 2026":{sehri:"05:44 AM",iftar:"06:31 PM"},
+"23 Feb 2026":{sehri:"05:43 AM",iftar:"06:32 PM"},
+"24 Feb 2026":{sehri:"05:42 AM",iftar:"06:32 PM"},
+"25 Feb 2026":{sehri:"05:41 AM",iftar:"06:33 PM"},
+"26 Feb 2026":{sehri:"05:40 AM",iftar:"06:33 PM"},
+"27 Feb 2026":{sehri:"05:40 AM",iftar:"06:34 PM"},
+"28 Feb 2026":{sehri:"05:39 AM",iftar:"06:34 PM"},
+"01 Mar 2026":{sehri:"05:38 AM",iftar:"06:35 PM"},
+"02 Mar 2026":{sehri:"05:37 AM",iftar:"06:35 PM"},
+"03 Mar 2026":{sehri:"05:36 AM",iftar:"06:36 PM"},
+"04 Mar 2026":{sehri:"05:35 AM",iftar:"06:36 PM"},
+"05 Mar 2026":{sehri:"05:34 AM",iftar:"06:37 PM"},
+"06 Mar 2026":{sehri:"05:33 AM",iftar:"06:37 PM"},
+"07 Mar 2026":{sehri:"05:32 AM",iftar:"06:38 PM"},
+"08 Mar 2026":{sehri:"05:31 AM",iftar:"06:38 PM"},
+"09 Mar 2026":{sehri:"05:30 AM",iftar:"06:39 PM"},
+"10 Mar 2026":{sehri:"05:30 AM",iftar:"06:39 PM"},
+"11 Mar 2026":{sehri:"05:29 AM",iftar:"06:40 PM"},
+"12 Mar 2026":{sehri:"05:28 AM",iftar:"06:40 PM"},
+"13 Mar 2026":{sehri:"05:27 AM",iftar:"06:41 PM"},
+"14 Mar 2026":{sehri:"05:25 AM",iftar:"06:41 PM"},
+"15 Mar 2026":{sehri:"05:24 AM",iftar:"06:42 PM"},
+"16 Mar 2026":{sehri:"05:23 AM",iftar:"06:42 PM"},
+"17 Mar 2026":{sehri:"05:22 AM",iftar:"06:43 PM"},
+"18 Mar 2026":{sehri:"05:21 AM",iftar:"06:43 PM"},
+"19 Mar 2026":{sehri:"05:20 AM",iftar:"06:43 PM"},
+"20 Mar 2026":{sehri:"05:19 AM",iftar:"06:44 PM"}
 
-        function playDua(e) {
-            e.stopPropagation();
-            forceActivate();
-            const btnText = document.getElementById("duaText");
-            const btnIcon = document.getElementById("duaIcon");
+}
 
-            if (dua.paused) {
-                dua.play();
-                btnText.innerText = "Playing Dua...";
-                btnIcon.innerText = "⏸";
-            } else {
-                dua.pause();
-                btnText.innerText = "Listen Dua";
-                btnIcon.innerText = "▶";
-            }
-        }
+function activateSystem(){
 
-        function updateApp() {
-            const now = new Date();
-            
-            // Current Time formatting to match table (e.g., "05:46 AM")
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            const displayHours = hours % 12 || 12;
-            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-            const timeStr = `${displayHours < 10 ? '0' + displayHours : displayHours}:${displayMinutes} ${ampm}`;
+if(!active){
 
-            document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', {
-                hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit'
-            });
+siren.play().then(()=>{
+siren.pause()
+siren.currentTime=0
+})
 
-            const rows = document.querySelectorAll("#ramadanTable tbody tr");
-            let nextTargetFound = false;
+dua.play().then(()=>{
+dua.pause()
+dua.currentTime=0
+})
 
-            rows.forEach(r => {
-                const rowDateStr = r.getAttribute('data-date');
-                const sehriStr = r.cells[1].innerText.trim();
-                const iftarStr = r.cells[2].innerText.trim();
-                const rowDate = new Date(rowDateStr);
+active=true
 
-                // Reset highlights
-                r.classList.remove("today-row", "highlight-siren");
+}
 
-                if (now.toDateString() === rowDate.toDateString()) {
-                    r.classList.add("today-row");
+}
 
-                    // SIREN TRIGGER LOGIC
-                    if (timeStr === sehriStr || timeStr === iftarStr) {
-                        r.classList.add("highlight-siren");
-                        
-                        // Sirf tab bajaye jab system active ho aur is minute mein na baja ho
-                        if (isSystemActive && lastPlayedKey !== (rowDateStr + timeStr)) {
-                            siren.currentTime = 0;
-                            siren.play().catch(e => console.log("Playback failed", e));
-                            lastPlayedKey = rowDateStr + timeStr;
-                        }
-                    }
-                }
+function testSiren(e){
 
-                // Countdown Logic
-                const sDate = new Date(`${rowDateStr} ${sehriStr}`);
-                const iDate = new Date(`${rowDateStr} ${iftarStr}`);
+e.stopPropagation()
 
-                if (!nextTargetFound) {
-                    if (now < sDate) {
-                        updateTimer(sDate, "Sehri");
-                        nextTargetFound = true;
-                    } else if (now < iDate) {
-                        updateTimer(iDate, "Iftar");
-                        nextTargetFound = true;
-                    }
-                }
-            });
-        }
+activateSystem()
 
-        function updateTimer(target, label) {
-            const diff = target - new Date();
-            const h = Math.floor(diff / 3600000);
-            const m = Math.floor((diff % 3600000) / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
-            document.getElementById("countdown").innerText = `${label} in: ${h}h ${m}m ${s}s`;
-        }
+siren.currentTime=0
+siren.play()
 
-        // Run every second
-        setInterval(updateApp, 1000);
-        updateApp();
-    </script>
+setTimeout(()=>{
+siren.pause()
+},60000)
+
+}
+
+function playDua(e){
+
+e.stopPropagation()
+
+activateSystem()
+
+if(dua.paused){
+dua.play()
+}else{
+dua.pause()
+}
+
+}
+
+function convert(time){
+
+let p=time.split(" ")
+let hm=p[0].split(":")
+
+let h=parseInt(hm[0])
+let m=parseInt(hm[1])
+
+if(p[1]=="PM" && h!=12) h+=12
+if(p[1]=="AM" && h==12) h=0
+
+return {h,m}
+
+}
+
+function update(){
+
+const now=new Date()
+
+document.getElementById("clock").innerText=
+now.toLocaleTimeString()
+
+let dateStr=now.toDateString().slice(4)
+
+let today=timetable[dateStr]
+
+if(!today) return
+
+let s=convert(today.sehri)
+let i=convert(today.iftar)
+
+if(now.getHours()==s.h && now.getMinutes()==s.m){
+play("sehri")
+}
+
+if(now.getHours()==i.h && now.getMinutes()==i.m){
+play("iftar")
+}
+
+let target=new Date()
+
+if(now.getHours()<i.h){
+target.setHours(i.h,i.m,0)
+showCountdown(target,"Iftar")
+}else{
+target.setHours(s.h,s.m,0)
+target.setDate(target.getDate()+1)
+showCountdown(target,"Sehri")
+}
+
+}
+
+function showCountdown(target,label){
+
+let diff=target-new Date()
+
+let h=Math.floor(diff/3600000)
+let m=Math.floor((diff%3600000)/60000)
+let s=Math.floor((diff%60000)/1000)
+
+document.getElementById("countdown").innerText=
+label+" in "+h+"h "+m+"m "+s+"s"
+
+}
+
+function play(key){
+
+let today=new Date().toDateString()
+
+if(lastPlay==today+key) return
+
+if(active){
+
+siren.currentTime=0
+siren.play()
+
+setTimeout(()=>{
+siren.pause()
+},60000)
+
+lastPlay=today+key
+
+}
+
+}
+
+setInterval(update,1000)
+
+</script>
+
 </body>
 </html>
