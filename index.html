@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Karachi Ramadan 2026 - Responsive Siren</title>
+    <title>Karachi Ramadan 2026 - Fixed Siren</title>
     <style>
         :root {
             --primary-green: #1e5631;
@@ -15,9 +15,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--light-bg);
-            color: #2c3e50;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,152 +26,88 @@
 
         .calendar-card {
             background: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 450px;
             border-top: 10px solid var(--primary-green);
-        }
-
-        header h1 {
-            font-size: 1.2rem;
-            color: var(--primary-green);
             text-align: center;
-            margin-bottom: 12px;
         }
 
         .status-bar {
             background: #f0f9f1;
             padding: 15px;
             border-radius: 15px;
-            margin-bottom: 15px;
-            text-align: center;
+            margin: 15px 0;
             border: 1px solid #d4ebd5;
         }
 
-        #clock {
-            font-size: 1.7rem;
-            font-weight: 800;
-            font-family: 'Courier New', monospace;
-            color: #333;
-        }
-
-        .countdown-box {
-            font-size: 0.95rem;
-            color: var(--danger-red);
-            font-weight: bold;
-            margin-top: 5px;
-            display: block;
-        }
+        #clock { font-size: 1.8rem; font-weight: 800; color: #333; }
+        .countdown-box { color: var(--danger-red); font-weight: bold; margin-top: 5px; }
 
         .activation-btn {
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             background: #ff9800;
             color: white;
             border: none;
             border-radius: 12px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.1rem;
             margin-bottom: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(255,152,0,0.3);
+            box-shadow: 0 4px 15px rgba(255,152,0,0.3);
             animation: pulse 2s infinite;
         }
 
-        .actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .dua-btn, .test-btn {
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            color: white;
-        }
-
-        .dua-btn { background: var(--primary-green); }
-        .test-btn { background: #555; }
+        .active-state { background: var(--primary-green) !important; animation: none !important; }
 
         .table-container {
             width: 100%;
             overflow-y: auto;
             max-height: 300px;
-            border-radius: 10px;
             border: 1px solid #eee;
+            border-radius: 10px;
         }
 
         table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         th { background: var(--primary-green); color: white; padding: 10px; position: sticky; top: 0; }
-        td { padding: 10px; border-bottom: 1px solid #f0f0f0; text-align: center; }
+        td { padding: 10px; border-bottom: 1px solid #f0f0f0; }
 
-        .today-row { background-color: #fffde7 !important; border-left: 4px solid var(--accent-gold); }
+        .today-row { background-color: #fff9c4 !important; font-weight: bold; }
         .highlight-siren { background-color: var(--accent-gold) !important; animation: flash 1s infinite; }
 
-        @keyframes flash { 50% { opacity: 0.6; } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
-
-        .credits {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.75rem;
-            color: #777;
-            line-height: 1.4;
-        }
+        @keyframes flash { 50% { opacity: 0.5; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="calendar-card">
-        <header>
-            <h1>🌙 Karachi Ramadan 2026</h1>
-            <div class="status-bar">
-                <div id="clock">00:00:00 AM</div>
-                <div id="countdown" class="countdown-box">Loading...</div>
-            </div>
-        </header>
-
-        <button id="activateBtn" class="activation-btn" onclick="startSirenSystem()">
-            🔔 TAP TO ACTIVATE SIREN
-        </button>
-
-        <div class="actions">
-            <button class="dua-btn" onclick="playDua()">▶ Listen Dua</button>
-            <button class="test-btn" onclick="testSiren()">🔊 Test Siren</button>
+        <h2>🌙 Karachi Ramadan 2026</h2>
+        
+        <div class="status-bar">
+            <div id="clock">00:00:00 AM</div>
+            <div id="countdown" class="countdown-box">System Initializing...</div>
         </div>
 
+        <button id="activateBtn" class="activation-btn" onclick="unlockAudio()">
+            🔊 ACTIVATE AUTO-SIREN
+        </button>
+
         <div class="table-container">
-            <table id="ramadanTable">
+            <table>
                 <thead>
-                    <tr>
-                        <th>Ramadan</th>
-                        <th>Sehri</th>
-                        <th>Iftar</th>
-                        <th>Date</th>
-                    </tr>
+                    <tr><th>Roza</th><th>Sehri</th><th>Iftar</th><th>Date</th></tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
             </table>
-        </div>
-
-        <div class="credits">
-            <b>SYED MUHAMMAD HASSAN ALI</b><br>
-            Islamic Studio YouTube Channel
         </div>
     </div>
 
     <audio id="sirenSound" preload="auto">
         <source src="https://www.naataudio.com/downloads/IslamicRingtones/Sehri-Iftar-Alarm.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="duaAudio" preload="auto">
-        <source src="Video.Guru_20260102_152237875.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -209,115 +144,97 @@
             ["30", "05:19 AM", "06:44 PM", "20 Mar 2026"]
         ];
 
-        let isAudioUnlocked = false;
-        let lastPlayedKey = "";
+        let audioContextUnlocked = false;
+        let sirenPlayedForMinute = ""; // Prevents siren from playing multiple times in 1 minute
 
-        // Render Table Once
+        // Populate Table
         const tbody = document.getElementById('tableBody');
         ramadanData.forEach(d => {
             const tr = document.createElement('tr');
-            tr.id = `day-${d[0]}`;
-            tr.setAttribute('data-date', d[3]);
-            tr.innerHTML = `<td>${d[0]}</td><td>${d[1]}</td><td>${d[2]}</td><td>${d[3].split(' ')[0]} ${d[3].split(' ')[1]}</td>`;
+            tr.id = `row-${d[3].replace(/ /g, '')}`;
+            tr.innerHTML = `<td>${d[0]}</td><td>${d[1]}</td><td>${d[2]}</td><td>${d[3]}</td>`;
             tbody.appendChild(tr);
         });
 
-        function startSirenSystem() {
+        // CRITICAL: Function to unlock audio on mobile
+        function unlockAudio() {
             const siren = document.getElementById("sirenSound");
-            const dua = document.getElementById("duaAudio");
-            
-            // Audio Context Unlock for Mobile
             siren.play().then(() => {
                 siren.pause();
                 siren.currentTime = 0;
-                dua.play().then(() => { dua.pause(); dua.currentTime = 0; });
-                
-                isAudioUnlocked = true;
+                audioContextUnlocked = true;
                 const btn = document.getElementById("activateBtn");
-                btn.innerText = "✅ SIREN IS READY";
-                btn.style.background = "#1e5631";
-                btn.style.animation = "none";
-            }).catch(() => {
-                alert("Please enable sound permissions in your browser.");
+                btn.innerText = "✅ SIREN IS ACTIVE";
+                btn.classList.add("active-state");
+                alert("Siren system activated! Keep this page open.");
+            }).catch(err => {
+                console.error("Audio unlock failed:", err);
             });
         }
 
-        function testSiren() {
-            const siren = document.getElementById("sirenSound");
-            siren.currentTime = 0;
-            siren.play().catch(() => alert("Click the Orange Button first!"));
-        }
-
-        function playDua() {
-            const dua = document.getElementById("duaAudio");
-            dua.currentTime = 0;
-            dua.play().catch(() => alert("Click the Orange Button first!"));
-        }
-
-        function updateApp() {
+        function updateClock() {
             const now = new Date();
             
-            // Time string formatting for comparison
-            const options = { hour: '2-digit', minute: '2-digit', hour12: true };
-            let timeStr = now.toLocaleTimeString('en-US', options); 
-            // Fix: Normalize "05:46 AM" to match table
-            if(timeStr.startsWith('00')) timeStr = timeStr.replace('00', '12');
+            // Format current time to match "05:46 AM" exactly
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            const currentTimeStr = `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
 
-            document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', { 
-                hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' 
-            });
+            // Display Digital Clock
+            document.getElementById("clock").innerText = now.toLocaleTimeString();
 
-            const rows = document.querySelectorAll("#ramadanTable tbody tr");
-            let targetFound = false;
+            // Check Today's Data
+            const todayStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/,/g, '');
+            
+            let targetTime = null;
+            let targetLabel = "";
 
-            rows.forEach(r => {
-                const dateStr = r.getAttribute('data-date');
-                const rowDate = new Date(dateStr);
-                const sehriTime = r.cells[1].innerText.trim();
-                const iftarTime = r.cells[2].innerText.trim();
+            ramadanData.forEach(d => {
+                const [roza, sehri, iftar, date] = d;
+                const row = document.getElementById(`row-${date.replace(/ /g, '')}`);
+                
+                if (date === todayStr) {
+                    row.classList.add("today-row");
 
-                r.classList.remove("today-row", "highlight-siren");
-
-                // Today check
-                if (now.toDateString() === rowDate.toDateString()) {
-                    r.classList.add("today-row");
-
-                    // Siren logic (Match check)
-                    if (timeStr === sehriTime || timeStr === iftarTime) {
-                        r.classList.add("highlight-siren");
-                        if (isAudioUnlocked && lastPlayedKey !== (dateStr + timeStr)) {
+                    // SIREN TRIGGER LOGIC
+                    if (audioContextUnlocked) {
+                        if ((currentTimeStr === sehri || currentTimeStr === iftar) && sirenPlayedForMinute !== currentTimeStr) {
                             document.getElementById("sirenSound").play();
-                            lastPlayedKey = dateStr + timeStr;
+                            sirenPlayedForMinute = currentTimeStr;
+                            row.classList.add("highlight-siren");
                         }
                     }
-                }
 
-                // Countdown Logic
-                const sFull = new Date(`${dateStr} ${sehriTime}`);
-                const iFull = new Date(`${dateStr} ${iftarTime}`);
+                    // Countdown Logic
+                    const sehriTime = new Date(`${date} ${sehri}`);
+                    const iftarTime = new Date(`${date} ${iftar}`);
 
-                if (!targetFound) {
-                    if (now < sFull) {
-                        updateTimer(sFull, "Next Sehri"); targetFound = true;
-                    } else if (now < iFull) {
-                        updateTimer(iFull, "Today's Iftar"); targetFound = true;
+                    if (now < sehriTime) {
+                        targetTime = sehriTime;
+                        targetLabel = "Sehri";
+                    } else if (now < iftarTime) {
+                        targetTime = iftarTime;
+                        targetLabel = "Iftar";
                     }
                 }
             });
+
+            // Update Countdown
+            if (targetTime) {
+                const diff = targetTime - now;
+                const h = Math.floor(diff / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                document.getElementById("countdown").innerText = `${targetLabel} in: ${h}h ${m}m ${s}s`;
+            } else {
+                document.getElementById("countdown").innerText = "Wait for Next Roza";
+            }
         }
 
-        function updateTimer(target, label) {
-            const diff = target - new Date();
-            const h = Math.floor(diff / 3600000);
-            const m = Math.floor((diff % 3600000) / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
-            document.getElementById("countdown").innerText = `${label}: ${h}h ${m}m ${s}s`;
-        }
-
-        // Run every second
-        setInterval(updateApp, 1000);
-        // Initial run
-        updateApp();
+        setInterval(updateClock, 1000);
     </script>
 </body>
 </html>
