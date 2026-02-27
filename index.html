@@ -3,176 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Karachi Ramadan 2026 - Live Countdown & Auto-Siren</title>
+    <title>Karachi Ramadan 2026 - Live Countdown & Siren</title>
     <style>
         :root {
             --primary-green: #1e5631;
-            --accent-red: #c0392b;
-            --bg-light: #f4f7f6;
-            --white: #ffffff;
-            --gold: #d4af37;
+            --accent-gold: #f1c40f;
+            --danger-red: #c0392b;
+            --light-bg: #f4f7f6;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-light);
-            color: #333;
+            background-color: var(--light-bg);
+            color: #2c3e50;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
             min-height: 100vh;
+            padding: 10px;
         }
 
+        /* Responsive Container */
         .calendar-card {
-            background: var(--white);
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 600px; /* Mobile focused width */
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border-top: 8px solid var(--primary-green);
-            overflow: hidden;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 20px;
+            max-width: 500px; /* Mobile Friendly Width */
+            border-top: 10px solid var(--primary-green);
         }
 
         header h1 {
+            font-size: 1.3rem;
             color: var(--primary-green);
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 15px;
         }
 
+        /* Status & Clock */
         .status-bar {
-            background: #f0f9f4;
+            background: #f0f9f1;
             padding: 15px;
-            border-radius: 20px;
-            border: 1px solid #d1e7dd;
+            border-radius: 15px;
+            margin-bottom: 15px;
             text-align: center;
+            border: 1px solid #d4ebd5;
         }
 
         #clock {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            color: var(--primary-green);
             font-family: 'Courier New', monospace;
-            display: block;
-            margin-bottom: 5px;
+            color: #333;
         }
 
         .countdown-box {
-            display: inline-block;
-            padding: 8px 15px;
-            background: var(--accent-red);
-            border-radius: 50px;
-            color: white;
-            font-weight: bold;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 10px rgba(192, 57, 43, 0.3);
-        }
-
-        .activation-zone {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        #statusText {
-            margin-bottom: 12px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--accent-red);
-            text-transform: uppercase;
-        }
-
-        .btn {
-            padding: 15px 20px;
-            border-radius: 15px;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
             font-size: 1rem;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            color: var(--danger-red);
+            font-weight: bold;
+            margin-top: 8px;
+            display: block;
         }
 
-        .btn-activate { background: #ff9800; color: white; box-shadow: 0 4px 15px rgba(255,152,0,0.3); }
-        .btn-test { background: #555; color: white; font-size: 0.9rem; }
-        .btn-success { background: var(--primary-green) !important; box-shadow: 0 4px 15px rgba(30,86,49,0.3); }
+        /* Mobile Responsive Buttons */
+        .activation-btn {
+            width: 100%;
+            padding: 18px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,152,0,0.3);
+            animation: pulse 2s infinite;
+        }
 
-        .table-wrapper { 
-            width: 100%; 
-            overflow-y: auto; 
-            max-height: 400px; /* Scrollable list */
-            margin-top: 10px;
-            border-radius: 15px;
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .dua-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .test-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        /* Scrollable Table for Mobile */
+        .table-container {
+            width: 100%;
+            overflow-y: auto;
+            max-height: 350px; /* Important for mobile height */
+            border-radius: 10px;
             border: 1px solid #eee;
         }
 
-        table { width: 100%; border-collapse: collapse; }
-        th { 
-            position: sticky; top: 0;
-            background: var(--primary-green); color: white; 
-            padding: 12px 8px; font-size: 0.9rem;
-        }
-        td { padding: 12px 8px; text-align: center; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
-        
-        .today-row { background-color: #fff9c4 !important; font-weight: bold; border: 2px solid var(--gold); }
-        
-        .siren-active { 
-            background-color: var(--accent-red) !important; 
-            color: white !important; 
-            animation: pulse 1s infinite; 
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { background: var(--primary-green); color: white; padding: 10px; position: sticky; top: 0; }
+        td { padding: 10px; border-bottom: 1px solid #f0f0f0; text-align: center; }
 
-        @keyframes pulse {
+        .today-row { background-color: #fff9c4 !important; font-weight: bold; }
+        .highlight-siren { background-color: var(--accent-gold) !important; animation: flash 1s infinite; }
+
+        @keyframes flash { 50% { opacity: 0.5; } }
+        @keyframes pulse { 
             0% { transform: scale(1); }
-            50% { transform: scale(0.98); opacity: 0.8; }
+            50% { transform: scale(1.02); }
             100% { transform: scale(1); }
         }
 
-        .credits { margin-top: 20px; color: var(--primary-green); text-align: center; font-size: 0.8rem; }
-        .credits b { display: block; font-size: 1rem; margin-bottom: 2px; }
+        .credits {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: var(--primary-green);
+        }
     </style>
 </head>
-
 <body>
 
     <div class="calendar-card">
         <header>
             <h1>🌙 Karachi Ramadan 2026</h1>
             <div class="status-bar">
-                <span id="clock">00:00:00 AM</span>
-                <div id="countdown" class="countdown-box">Initializing...</div>
+                <div id="clock">00:00:00 AM</div>
+                <div id="countdown" class="countdown-box">Loading...</div>
             </div>
         </header>
 
-        <div class="activation-zone">
-            <p id="statusText">📢 System Needs Permission for Siren</p>
-            <button id="mainActionBtn" class="btn btn-activate" onclick="enableAudioSystem()">
-                🔔 ACTIVATE AUTO-SIREN
-            </button>
-            <button class="btn btn-test" onclick="playTest()">
-                🔊 TEST SOUND
-            </button>
+        <button id="activateBtn" class="activation-btn" onclick="startSirenSystem()">
+            🔊 ACTIVATE AUTO-SIREN
+        </button>
+
+        <div class="actions">
+            <button class="dua-btn" onclick="playDua()">▶ Listen Dua</button>
+            <button class="test-btn" onclick="testSiren()">🔔 Test Sound</button>
         </div>
 
-        <div class="table-wrapper">
+        <div class="table-container">
             <table id="ramadanTable">
                 <thead>
                     <tr>
@@ -182,121 +173,147 @@
                         <th>Date</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody"></tbody>
+                <tbody id="tableBody">
+                    </tbody>
             </table>
         </div>
 
         <div class="credits">
-            <b>SYED MUHAMMAD HASSAN ALI</b>
-            Islamic Studio Youtube Channel
+            Made By: <b>SYED MUHAMMAD HASSAN ALI</b><br>
+            Islamic Studio YouTube Channel
         </div>
     </div>
 
     <audio id="sirenSound" preload="auto">
         <source src="https://www.naataudio.com/downloads/IslamicRingtones/Sehri-Iftar-Alarm.mp3" type="audio/mpeg">
     </audio>
+    <audio id="duaAudio" preload="auto">
+        <source src="Video.Guru_20260102_152237875.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         const ramadanData = [
-            ["1", "05:46 AM", "06:29 PM", "19 Feb 2026"], ["2", "05:45 AM", "06:30 PM", "20 Feb 2026"],
-            ["3", "05:44 AM", "06:31 PM", "21 Feb 2026"], ["4", "05:44 AM", "06:31 PM", "22 Feb 2026"],
-            ["5", "05:43 AM", "06:32 PM", "23 Feb 2026"], ["6", "05:42 AM", "06:32 PM", "24 Feb 2026"],
-            ["7", "05:41 AM", "06:33 PM", "25 Feb 2026"], ["8", "05:40 AM", "06:33 PM", "26 Feb 2026"],
-            ["9", "05:40 AM", "06:34 PM", "27 Feb 2026"], ["10", "05:39 AM", "06:34 PM", "28 Feb 2026"],
-            ["11", "05:38 AM", "06:35 PM", "01 Mar 2026"], ["12", "05:37 AM", "06:35 PM", "02 Mar 2026"],
-            ["13", "05:36 AM", "06:36 PM", "03 Mar 2026"], ["14", "05:35 AM", "06:36 PM", "04 Mar 2026"],
-            ["15", "05:34 AM", "06:37 PM", "05 Mar 2026"], ["16", "05:33 AM", "06:37 PM", "06 Mar 2026"],
-            ["17", "05:32 AM", "06:38 PM", "07 Mar 2026"], ["18", "05:31 AM", "06:38 PM", "08 Mar 2026"],
-            ["19", "05:30 AM", "06:39 PM", "09 Mar 2026"], ["20", "05:30 AM", "06:39 PM", "10 Mar 2026"],
-            ["21", "05:29 AM", "06:40 PM", "11 Mar 2026"], ["22", "05:28 AM", "06:40 PM", "12 Mar 2026"],
-            ["23", "05:27 AM", "06:41 PM", "13 Mar 2026"], ["24", "05:25 AM", "06:41 PM", "14 Mar 2026"],
-            ["25", "05:24 AM", "06:42 PM", "15 Mar 2026"], ["26", "05:23 AM", "06:42 PM", "16 Mar 2026"],
-            ["27", "05:22 AM", "06:43 PM", "17 Mar 2026"], ["28", "05:21 AM", "06:43 PM", "18 Mar 2026"],
-            ["29", "05:20 AM", "06:43 PM", "19 Mar 2026"], ["30", "05:19 AM", "06:44 PM", "20 Mar 2026"]
+            ["1", "05:46 AM", "06:29 PM", "19 Feb 2026"],
+            ["2", "05:45 AM", "06:30 PM", "20 Feb 2026"],
+            ["3", "05:44 AM", "06:31 PM", "21 Feb 2026"],
+            ["4", "05:44 AM", "06:31 PM", "22 Feb 2026"],
+            ["5", "05:43 AM", "06:32 PM", "23 Feb 2026"],
+            ["6", "05:42 AM", "06:32 PM", "24 Feb 2026"],
+            ["7", "05:41 AM", "06:33 PM", "25 Feb 2026"],
+            ["8", "05:40 AM", "06:33 PM", "26 Feb 2026"],
+            ["9", "05:40 AM", "06:34 PM", "27 Feb 2026"],
+            ["10", "05:39 AM", "06:34 PM", "28 Feb 2026"],
+            ["11", "05:38 AM", "06:35 PM", "01 Mar 2026"],
+            ["12", "05:37 AM", "06:35 PM", "02 Mar 2026"],
+            ["13", "05:36 AM", "06:36 PM", "03 Mar 2026"],
+            ["14", "05:35 AM", "06:36 PM", "04 Mar 2026"],
+            ["15", "05:34 AM", "06:37 PM", "05 Mar 2026"],
+            ["16", "05:33 AM", "06:37 PM", "06 Mar 2026"],
+            ["17", "05:32 AM", "06:38 PM", "07 Mar 2026"],
+            ["18", "05:31 AM", "06:38 PM", "08 Mar 2026"],
+            ["19", "05:30 AM", "06:39 PM", "09 Mar 2026"],
+            ["20", "05:30 AM", "06:39 PM", "10 Mar 2026"],
+            ["21", "05:29 AM", "06:40 PM", "11 Mar 2026"],
+            ["22", "05:28 AM", "06:40 PM", "12 Mar 2026"],
+            ["23", "05:27 AM", "06:41 PM", "13 Mar 2026"],
+            ["24", "05:25 AM", "06:41 PM", "14 Mar 2026"],
+            ["25", "05:24 AM", "06:42 PM", "15 Mar 2026"],
+            ["26", "05:23 AM", "06:42 PM", "16 Mar 2026"],
+            ["27", "05:22 AM", "06:43 PM", "17 Mar 2026"],
+            ["28", "05:21 AM", "06:43 PM", "18 Mar 2026"],
+            ["29", "05:20 AM", "06:43 PM", "19 Mar 2026"],
+            ["30", "05:19 AM", "06:44 PM", "20 Mar 2026"]
         ];
 
-        let audioEnabled = false;
-        let lastPlayed = "";
+        let isAudioUnlocked = false;
+        let lastPlayedKey = "";
 
-        // Build Table
+        // Render Table
         const tbody = document.getElementById('tableBody');
-        ramadanData.forEach(day => {
-            const row = document.createElement('tr');
-            row.setAttribute('data-date', day[3]);
-            row.innerHTML = `<td>${day[0]}</td><td>${day[1]}</td><td>${day[2]}</td><td>${day[3]}</td>`;
-            tbody.appendChild(row);
+        ramadanData.forEach(d => {
+            const tr = document.createElement('tr');
+            tr.setAttribute('data-date', d[3]);
+            tr.innerHTML = `<td>${d[0]}</td><td>${d[1]}</td><td>${d[2]}</td><td>${d[3].split(' ')[0] + ' ' + d[3].split(' ')[1]}</td>`;
+            tbody.appendChild(tr);
         });
 
-        function enableAudioSystem() {
-            const siren = document.getElementById('sirenSound');
+        // The "Secret Sauce" for Mobile Audio
+        function startSirenSystem() {
+            const siren = document.getElementById("sirenSound");
             siren.play().then(() => {
-                siren.pause();
+                siren.pause(); // Just a quick play/pause to tell Mobile OS it's allowed
                 siren.currentTime = 0;
-                audioEnabled = true;
-                const btn = document.getElementById('mainActionBtn');
-                btn.innerText = "✅ AUTO-SIREN READY";
-                btn.className = "btn btn-success";
-                document.getElementById('statusText').innerText = "Monitoring Live Times...";
-                document.getElementById('statusText').style.color = "var(--primary-green)";
-            }).catch(err => console.log("Audio unlock failed"));
+                isAudioUnlocked = true;
+                const btn = document.getElementById("activateBtn");
+                btn.innerText = "✅ SIREN SYSTEM ACTIVE";
+                btn.style.background = "#1e5631";
+                btn.style.animation = "none";
+            }).catch(e => alert("Please tap again to allow sound."));
         }
 
-        function playTest() {
-            const siren = document.getElementById('sirenSound');
+        function testSiren() {
+            const siren = document.getElementById("sirenSound");
             siren.currentTime = 0;
             siren.play();
         }
 
-        function updateSystem() {
+        function playDua() {
+            document.getElementById("duaAudio").play();
+        }
+
+        function updateApp() {
             const now = new Date();
-            // Exact time for matching
-            const timeMatch = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(/^0/, '');
             
-            // Display clock
-            document.getElementById('clock').innerText = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById("clock").innerText = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-            const rows = document.querySelectorAll('#ramadanTable tbody tr');
-            let nextEvent = null;
+            const rows = document.querySelectorAll("#ramadanTable tbody tr");
+            let targetFound = false;
 
-            rows.forEach(row => {
-                const dateStr = row.getAttribute('data-date');
-                const sehriStr = row.cells[1].innerText;
-                const iftarStr = row.cells[2].innerText;
-                const rowDate = new Date(dateStr);
-                
-                // Highlight today and check for siren
+            rows.forEach(r => {
+                const dateAttr = r.getAttribute('data-date');
+                const rowDate = new Date(dateAttr);
+                const sehriStr = r.cells[1].innerText.trim();
+                const iftarStr = r.cells[2].innerText.trim();
+
+                r.classList.remove("today-row", "highlight-siren");
+
                 if (now.toDateString() === rowDate.toDateString()) {
-                    row.classList.add('today-row');
-                    
-                    // Siren Trigger Logic
-                    if ((timeMatch === sehriStr || timeMatch === iftarStr) && audioEnabled && lastPlayed !== timeMatch) {
-                        row.classList.add('siren-active');
-                        document.getElementById('sirenSound').play();
-                        lastPlayed = timeMatch;
-                        setTimeout(() => row.classList.remove('siren-active'), 60000);
+                    r.classList.add("today-row");
+
+                    // SIREN LOGIC
+                    if ((timeStr === sehriStr || timeStr === iftarStr)) {
+                        r.classList.add("highlight-siren");
+                        if (isAudioUnlocked && lastPlayedKey !== timeStr) {
+                            document.getElementById("sirenSound").play();
+                            lastPlayedKey = timeStr;
+                        }
                     }
                 }
 
-                // Countdown Logic
-                const sehriTime = new Date(`${dateStr} ${sehriStr}`);
-                const iftarTime = new Date(`${dateStr} ${iftarStr}`);
+                // Countdown logic
+                const sTime = new Date(`${dateAttr} ${sehriStr}`);
+                const iTime = new Date(`${dateAttr} ${iftarStr}`);
 
-                if (!nextEvent) {
-                    if (now < sehriTime) { nextEvent = { t: sehriTime, l: "Sehri" }; }
-                    else if (now < iftarTime) { nextEvent = { t: iftarTime, l: "Iftar" }; }
+                if (!targetFound) {
+                    if (now < sTime) {
+                        setTimer(sTime, "Next Sehri"); targetFound = true;
+                    } else if (now < iTime) {
+                        setTimer(iTime, "Today's Iftar"); targetFound = true;
+                    }
                 }
             });
-
-            if (nextEvent) {
-                const diff = nextEvent.t - now;
-                const h = Math.floor(diff / 3600000);
-                const m = Math.floor((diff % 3600000) / 60000);
-                const s = Math.floor((diff % 60000) / 1000);
-                document.getElementById('countdown').innerText = `${nextEvent.l} in: ${h}h ${m}m ${s}s`;
-            }
         }
 
-        setInterval(updateSystem, 1000);
+        function setTimer(target, label) {
+            const diff = target - new Date();
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById("countdown").innerText = `${label} in: ${h}h ${m}m ${s}s`;
+        }
+
+        setInterval(updateApp, 1000);
     </script>
 </body>
 </html>
